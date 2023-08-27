@@ -1,0 +1,178 @@
+body {
+    background-color: #888888;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.main {
+    background-color: #FFFFFF;
+    width: 400px;
+    height: 560px;
+    margin: 7em auto;
+    border-radius: 1.1em;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+.header_text {
+    padding-top: 20px;
+    color: #303030;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 40px;
+    margin-left: 5px;
+    margin-bottom: 3px;
+	
+}
+
+.sub_header {
+    margin-left: 15px;
+    margin-bottom: 0px;
+    margin-top: 20px;
+    color: #464646;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.login_logo {
+	width: 136px;
+	height: 120px;
+    margin-bottom: -10px;
+	
+}
+
+.email {
+    width: 85%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(136, 126, 126, 0.04);
+    padding: 10px 10px;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    border: 0.15em solid #ccc;
+    margin-bottom: 50px;
+    margin-left: 15px;
+    margin-bottom: 20px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.email_header {
+    margin-left: 15px;
+    margin-top: auto;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 700;
+}
+
+.pw_header {
+    margin-left: 15px;
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 700;
+}
+
+form.form1 {
+    padding-top: 40px;
+}
+
+.pass {
+    width: 85%;
+    color: rgb(38, 50, 56);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgba(182, 36, 36, 0.04);
+    padding: 10px 10px;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    border: 0.15em solid #ccc;
+    margin-bottom: 50px;
+    margin-left: 15px;
+    margin-bottom: -10px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+
+
+.submit {
+    cursor: pointer;
+    border-radius: 5px;
+    color: #fff;
+    background: linear-gradient(to bottom, #0db623, #069134);
+    border: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-family: 'Ubuntu', sans-serif;
+    margin-left: 35%;
+    font-size: 15px;
+    box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.14);
+}
+
+.submit:hover {
+    background: linear-gradient(to bottom, #0ba339, #036b0c);
+}
+
+
+.register {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #067a29;
+    padding-top: 15px;
+    text-decoration: underline;
+}
+
+.forgot_pw {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #067a29;
+    margin-left: 15px;
+    margin-bottom: 40px;
+    text-decoration: underline;
+}
+
+.register a {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #067a29;
+    text-decoration: underline
+}
+
+.register a:hover {
+    color: #04501b;
+}
+
+.register a:visited {
+    color: #04501b;
+}
+
+.forgot_pw a {
+    text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+    color: #067a29;
+    text-decoration: underline
+}
+
+.forgot_pw a:hover {
+    color: #04501b;
+}
+
+.forgot_pw a:visited {
+    color: #04501b;
+}
+
+.apiKey {
+    color:rgb(38, 50, 56);
+    text-align: center;
+    /*visibility: hidden; */
+}
+::placeholder { 
+    color: rgb(121, 121, 121);
+    opacity: 0.5;
+  }
+
+
+@media (max-width: 600px) {
+    .main {
+        border-radius: 0px;
+    }
+}
+    

@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Orion ";
+}
+
+<script src="js/site.js"></script>
+
+
+<div class="centerForm">
+    <center><img src="~/images/orion_logo.png"/>
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <form class="form-inline" asp-area="Identity" asp-page="/Logout/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+                </form>
+            }
+            else
+            {
+                <p>You have successfully logged out of the application.</p>
+            }
+        }
+    </center>
+</div>

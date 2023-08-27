@@ -1,0 +1,209 @@
+﻿@{
+    ViewData["Title"] = "Orion ";
+}
+
+<script src="~/js/site.js"></script>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
+            <h1 class="h3 mb-0 text-gray-800">Welcome, @User.Identity.Name</h1>
+
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Users Registered
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.UsersRegistered</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Users Logged In
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.UsersLoggedIn</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-check fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Projects Started
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ProjectsStarted</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Projects Pending
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ProjectsPending</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-pause fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Row -->
+        <!-- Content Row -->
+        <div class="row">
+            <!-- Content Column -->
+            <div class="col-lg-12 mb-4">
+                <div class="card shadow mb-4 border-bottom-success">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-success">Projects Completed</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            @foreach (var project in ViewBag.CompletedProjects)
+                            {
+                                <div class="mb-2">
+                                    <h4 class="small font-weight-bold">@project.ProjectName<span class="float-end">Complete!</span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
+                                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>           
+            </div>
+        </div>
+        <div class="row">
+            <!-- Content Column -->
+            <div class="col-lg-12 mb-4">
+                <div class="card shadow mb-4 border-bottom-warning">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-warning">Projects In Progress</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            @foreach (var project in ViewBag.InProgressProjects)
+                            {
+                                int progressPercentage = project.ProjectTasksCompleted * 100 / project.TotalProjectTasks;
+                                <div class="mb-2">
+                                    <h4 class="small font-weight-bold">@project.ProjectName<span class="float-end">@progressPercentage%</span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar @GetProgressBarColor(progressPercentage)" role="progressbar" style="width: @progressPercentage%"
+                                             aria-valuenow="@progressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Content Column -->
+            <div class="col-lg-12 mb-4">
+                <div class="card shadow mb-4 border-bottom-danger">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-danger">Projects Not Started</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            @foreach (var project in ViewBag.NotStartedProjects)
+                            {
+                                <div class="mb-2">
+                                    <h4 class="small font-weight-bold">@project.ProjectName<span class="float-end">0%</span></h4>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+    @if (ViewBag.RenderMyScript == true)
+    {
+        @section Scripts {
+    <script type="text/javascript" src="~/js/site.js"></script>
+    <script type="text/javascript">basicJS("@ViewBag.HtmlStatus");</script>
+            }
+    }
+
+}
+else
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        You are not signed in. Please <a asp-area="" asp-page="/Login/Login">Click here</a> to login
+    </div>
+
+}
+@functions {
+    string GetProgressBarColor(int progressPercentage)
+    {
+        if (progressPercentage < 30)
+        {
+            return "bg-danger";
+        }
+        else if (progressPercentage < 70)
+        {
+            return "bg-warning";
+        }
+        else
+        {
+            return "bg-success";
+        }
+    }
+}

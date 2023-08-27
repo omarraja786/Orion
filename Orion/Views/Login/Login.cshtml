@@ -1,0 +1,43 @@
+﻿@model Orion.Controllers.LoginController
+@{
+    ViewData["Title"] = "Orion ";
+    var returnUrl = @Context.Request.Query["ReturnUrl"];
+}
+
+<div class="centerForm">
+    <center>
+        <img src="~/images/orion_logo.png" />
+        <br />
+        <form asp-controller="Login" asp-action="LoginButton" asp-route-returnurl="@returnUrl" method="post" enctype="multipart/form-data" id="account" >
+            <hr />
+            <div class="form-floating mb-3 form-group">
+                <input asp-for="Input.Email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating form-group">
+                <input asp-for="Input.Password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label asp-for="Input.Password">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input class="btn btn-primary mt-3" type="submit" value="Log in" id="btnSubmit" />
+            </div>
+        </form>
+
+
+        @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+        }
+        
+        @if (ViewBag.FailLogin != null)
+        {
+            <div class="alert alert-danger mt-3" role="alert">
+                @ViewBag.FailLogin
+            </div>
+
+           
+        }
+    </center>
+</div>

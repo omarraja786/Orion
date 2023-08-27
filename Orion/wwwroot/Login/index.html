@@ -1,0 +1,42 @@
+<html>
+<head>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <title>Log in</title>
+</head>
+
+<script>
+  function dec2hex (dec) {
+    return dec.toString(16).padStart(2, "0")
+  }
+
+  function generateId (len) {
+    var arr = new Uint8Array((len || 40) / 2)
+    window.crypto.getRandomValues(arr)
+    return Array.from(arr, dec2hex).join('')
+}
+
+  function generateApiKey() {
+    document.getElementById("demo").innerHTML = generateId();
+  }
+</script>
+
+<body>
+  <div class="main">
+    <p class="header_text" ><center><img class="login_logo" src="../images/orion_logo.png" /></center></p>
+    <!--<p class="sub_header">Login</p>-->
+    <form class="form1">
+      <p class="email_header">Email</p>
+      <input class="email" type="text" placeholder="Email"> 
+      <p class="pw_header">Password</p>
+      <input class="pass" type="password"  placeholder="Password">
+      <p class="forgot_pw"><a href="#">Forgot your password?</p>
+      <a class="submit" onclick="generateApiKey()">Log In</a>
+      <p class="register" align="center"><a href="#">No account yet? Sign up now!</a></p>
+      <p class="apiKey" id="demo"></p>
+    </div>
+    
+</body>
+</html>

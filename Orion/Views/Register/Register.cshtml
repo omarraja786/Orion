@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Orion ";
+}
+
+<script src="~/js/site.js"></script>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="centerForm">
+        <center><img src="~/images/orion_logo.png"/>
+            <p class="infoText">Upload an excel file in the required format to register users </p></center>
+        <form asp-controller="Register" asp-action="Register" method="post" enctype="multipart/form-data">
+            <input type="file" name="postedFile"/>
+            <input type="submit" value="Import"/>
+        </form>
+        <center>
+            @if (ViewBag.Message != null)
+            {
+                <p class="ErrorText">@ViewBag.Message</p>
+            }
+            else {
+                <p class="SuccessText">@ViewBag.Success</p>
+            }
+        </center>
+    </div>
+}

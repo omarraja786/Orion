@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    @*    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    *@
+    <link href="~/lib/twitter-bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body id="page-top">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <a href="/Home/Index">
+                <img src="~/images/orion_logo.png" width="100" height="80" />
+            </a>
+
+            <div id="logoutDiv" style="width:100%">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form asp-controller="Logout" asp-action="LogoutButton" method="post" enctype="multipart/form-data" id="logout">
+                        <input class="btn btn-danger float-end me-3" type="submit" value="Log out" id="btnLogout" />
+                    </form>
+                }
+            </div>
+        </nav>
+    </header>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="/">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/Register/Register">
+                    <i class="fas fa-fw fa-user-alt"></i>
+                    <span>Register</span>
+                </a>
+            </li>
+        </ul>
+        <!-- End of Sidebar -->
+
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Orion 2023</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+        </div>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
