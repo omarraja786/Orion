@@ -4,7 +4,7 @@
 
 <script src="~/js/site.js"></script>
 
-@if (User.Identity.IsAuthenticated)
+@if (!User.Identity.IsAuthenticated)
 {
     <div class="centerForm">
         <center><img src="~/images/orion_logo.png"/>

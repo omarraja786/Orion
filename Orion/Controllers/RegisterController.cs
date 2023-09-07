@@ -15,7 +15,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Orion.Controllers
 {
-    [Authorize(Policy = "IsAdmin")]
+    //[Authorize(Policy = "IsAdmin")]
     public class RegisterController : Controller
     {
         private readonly ILogger<RegisterController> _logger;
