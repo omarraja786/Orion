@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Orion.Controllers.RegisterController
+@{
     ViewData["Title"] = "Orion ";
 }
 
@@ -8,18 +9,48 @@
 {
     <div class="centerForm">
         <center><img src="~/images/orion_logo.png"/>
-            <p class="infoText">Upload an excel file in the required format to register users </p></center>
-        <form asp-controller="Register" asp-action="Register" method="post" enctype="multipart/form-data">
-            <input type="file" name="postedFile"/>
-            <input type="submit" value="Import"/>
-        </form>
+            <p class="infoText">Please fill in all the required fields to register </p></center>
+
+        <form asp-controller="Register" asp-action="RegisterUser">
+            <hr />
+            <div class="form-floating mb-3 form-group">
+                <input asp-for="RegisterInput.FirstName" type="text" class="form-control" id="floatingInput" placeholder="First Name">
+                <label asp-for="RegisterInput.FirstName"></label>
+                <span asp-validation-for="RegisterInput.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 form-group">
+                <input asp-for="RegisterInput.LastName" type="text" class="form-control" id="floatingInput" placeholder="Last Name">
+                <label asp-for="RegisterInput.LastName"></label>
+                <span asp-validation-for="RegisterInput.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 form-group">
+                <input asp-for="RegisterInput.Email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <label asp-for="RegisterInput.Email"></label>
+                <span asp-validation-for="RegisterInput.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating form-group">
+                <input asp-for="RegisterInput.Password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label asp-for="RegisterInput.Password">Password</label>
+                <span asp-validation-for="RegisterInput.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 form-group">
+                <input asp-for="RegisterInput.Organization" type="text" class="form-control" id="floatingInput" placeholder="Organisation">
+                <label asp-for="RegisterInput.Organization"></label>
+                <span asp-validation-for="RegisterInput.Organization" class="text-danger"></span>
+            </div>
+            <div class="form-group row justify-content-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Register" id="btnRegister" />
+            </div>
+            </form>
+
+
         <center>
             @if (ViewBag.Message != null)
             {
-                <p class="ErrorText">@ViewBag.Message</p>
+                <p class="ErrorText" style="color:red;font-weight:bold;">@ViewBag.Message</p>
             }
             else {
-                <p class="SuccessText">@ViewBag.Success</p>
+                <p class="SuccessText" style="color:green;font-weight:bold;">@ViewBag.Success</p>
             }
         </center>
     </div>

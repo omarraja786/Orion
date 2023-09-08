@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Orion.Data
+namespace Orion.Models
 {
-    public class UserData
+    public class RegisterModel
     {
-        public int Id { get; set; }
 
         [Required]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
@@ -19,13 +19,8 @@ namespace Orion.Data
         [Required]
         public string LastName { get; set; }
 
-        [Required]
+
         public string Organization { get; set; }
 
-        
-        public bool IsAdmin { get; set; }
-
-        
-        public bool IsLoggedIn { get; set; }
     }
 }

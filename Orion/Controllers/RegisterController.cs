@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Data.SqlClient;
+using static Orion.Controllers.LoginController;
+using System.ComponentModel.DataAnnotations;
+using Orion.Data;
 
 namespace Orion.Controllers
 {
@@ -21,13 +24,19 @@ namespace Orion.Controllers
         private readonly ILogger<RegisterController> _logger;
         public IConfiguration Configuration { get; }
         private IWebHostEnvironment Environment;
+        private DataContext _dataContext;
 
-        public RegisterController(ILogger<RegisterController> logger, IConfiguration configuration, IWebHostEnvironment environment)
+        public RegisterController(ILogger<RegisterController> logger, IConfiguration configuration, IWebHostEnvironment environment, DataContext dataContext)
         {
             _logger = logger;
             Configuration = configuration;
             Environment = environment;
+            _dataContext = dataContext;
         }
+
+        [BindProperty] public RegisterModel RegisterInput { get; set; }
+
+        
 
         public IActionResult Register()
         {
@@ -35,87 +44,40 @@ namespace Orion.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(IFormFile postedFile)
+        public IActionResult RegisterUser()
         {
-            if (postedFile == null)
+            var userModel = new RegisterModel()
             {
-                ViewBag.Message = "Failed to upload file";
-                return View();
+                FirstName = RegisterInput.FirstName,
+                LastName = RegisterInput.LastName,
+                Email = RegisterInput.Email,
+                Organization = RegisterInput.Organization,
+                Password = RegisterInput.Password
+            };
+
+            if (_dataContext.Users.Any(x => x.Email == userModel.Email))
+            {
+                ViewBag.Message = "This email has already been registered in the system.";
+                return View("Register");
             }
 
             try
             {
-                //Create a Folder.
-                var path = Path.Combine(this.Environment.WebRootPath, "Uploads");
-                if (!Directory.Exists(path))
+                var userToRegister = new Data.UserData()
                 {
-                    Directory.CreateDirectory(path);
-                }
+                    FirstName = userModel.FirstName,
+                    LastName = userModel.LastName,
+                    Email = userModel.Email,
+                    Password = userModel.Password,
+                    Organization = userModel.Organization
+                };
 
-                //Save the uploaded Excel file.
-                var fileName = Path.GetFileName(postedFile.FileName);
-                var filePath = Path.Combine(path, fileName);
-                using (FileStream stream = new FileStream(filePath, FileMode.Create))
-                {
-                    postedFile.CopyTo(stream);
-                }
+                _dataContext.Users.Add(userToRegister);
+                _dataContext.SaveChanges();
+                ViewBag.Success = "The account has been registered successfully";
 
-                //Read the connection string for the Excel file.
-                var conString = Configuration.GetConnectionString("ExcelConString");
-                var dt = new DataTable();
-                conString = string.Format(conString, filePath);
 
-#pragma warning disable CA1416 // Validate platform compatibility
-                using (var connExcel = new OleDbConnection(conString))
-                {
-                    using (var cmdExcel = new OleDbCommand())
-                    {
-                        using (var odaExcel = new OleDbDataAdapter())
-                        {
-                            cmdExcel.Connection = connExcel;
-
-                            //Get the name of First Sheet.
-                            connExcel.Open();
-                            var dtExcelSchema = connExcel.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                            var sheetName = dtExcelSchema.Rows[0]["TABLE_NAME"].ToString();
-                            connExcel.Close();
-
-                            //Read Data from First Sheet.
-                            connExcel.Open();
-                            cmdExcel.CommandText = "SELECT * From [" + sheetName + "]";
-                            odaExcel.SelectCommand = cmdExcel;
-                            odaExcel.Fill(dt);
-                            connExcel.Close();
-                        }
-                    }
-                }
-#pragma warning restore CA1416 // Validate platform compatibility
-
-                //Insert the Data read from the Excel file to Database Table.
-                conString = Configuration.GetConnectionString("DefaultConnection");
-                using (var con = new SqlConnection(conString))
-                {
-                    using (var sqlBulkCopy = new SqlBulkCopy(con))
-                    {
-                        //Set the database table name.
-                        sqlBulkCopy.DestinationTableName = "dbo.Users";
-
-                        //[OPTIONAL]: Map the Excel columns with that of the database table.
-                        sqlBulkCopy.ColumnMappings.Add("Email", "Email");
-                        sqlBulkCopy.ColumnMappings.Add("Password", "Password");
-                        sqlBulkCopy.ColumnMappings.Add("FirstName", "FirstName");
-                        sqlBulkCopy.ColumnMappings.Add("LastName", "LastName");
-                        sqlBulkCopy.ColumnMappings.Add("Organization", "Organization");
-                        sqlBulkCopy.ColumnMappings.Add("IsAdmin", "IsAdmin");
-
-                        con.Open();
-                        sqlBulkCopy.WriteToServer(dt);
-                        con.Close();
-                        ViewBag.Success = "Users saved to database!";
-                    }
-                }
-
-                return View();
+                return View("Register");
             }
 
             catch (Exception e)
