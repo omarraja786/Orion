@@ -17,25 +17,18 @@ using Orion.Data;
 namespace Orion.Controllers
 {
     [Authorize(Policy = "IsAdmin")]
-    public class AdminController : Controller
+    public class AdminController(ILogger<RegisterController> logger, IConfiguration configuration,
+            IWebHostEnvironment environment, DataContext dataContext)
+        : Controller
     {
-        private readonly ILogger<RegisterController> _logger;
-        public IConfiguration Configuration { get; }
-        private IWebHostEnvironment Environment;
-        private readonly DataContext _dataContext;
-
-        public AdminController(ILogger<RegisterController> logger, IConfiguration configuration, IWebHostEnvironment environment, DataContext dataContext)
-        {
-            _logger = logger;
-            Configuration = configuration;
-            Environment = environment;
-            _dataContext = dataContext;
-        }
+        private readonly ILogger<RegisterController> _logger = logger;
+        public IConfiguration Configuration { get; } = configuration;
+        private IWebHostEnvironment Environment = environment;
 
         public IActionResult Admin()
         {
-            ViewBag.UsersLoggedIn = _dataContext.Users.Where(x => x.IsLoggedIn).ToList();
-            ViewBag.UsersRegistered = _dataContext.Users.ToList();
+            ViewBag.UsersLoggedIn = dataContext.Users.Where(x => x.IsLoggedIn).ToList();
+            ViewBag.UsersRegistered = dataContext.Users.ToList();
             return View();
         }
 

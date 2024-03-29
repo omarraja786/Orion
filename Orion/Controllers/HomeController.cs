@@ -20,25 +20,16 @@ using Orion.Data;
 namespace Orion.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController(ILogger<HomeController> logger, DataContext dataContext) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly DataContext _dataContext;
-
-        public HomeController(ILogger<HomeController> logger, DataContext dataContext)
-        {
-            _logger = logger;
-            _dataContext = dataContext;
-        }
-
         public IActionResult Index()
         {
-            ViewBag.UsersRegistered = _dataContext.Users.Count();
-            ViewBag.UsersLoggedIn = _dataContext.Users.Where(x => x.IsLoggedIn).Count();
-            ViewBag.ProjectsStarted = _dataContext.ProjectData.Where(x => x.ProjectStatus).Count();
-            ViewBag.ProjectsPending = _dataContext.ProjectData.Where(x => !x.ProjectStatus && !x.ProjectCompleted).Count();
-            ViewBag.ProjectsComplete = _dataContext.ProjectData.Where(x => x.ProjectCompleted).Count();
-            var projects = _dataContext.ProjectData.ToList();
+            ViewBag.UsersRegistered = dataContext.Users.Count();
+            ViewBag.UsersLoggedIn = dataContext.Users.Where(x => x.IsLoggedIn).Count();
+            ViewBag.ProjectsStarted = dataContext.ProjectData.Where(x => x.ProjectStatus).Count();
+            ViewBag.ProjectsPending = dataContext.ProjectData.Where(x => !x.ProjectStatus && !x.ProjectCompleted).Count();
+            ViewBag.ProjectsComplete = dataContext.ProjectData.Where(x => x.ProjectCompleted).Count();
+            var projects = dataContext.ProjectData.ToList();
 
             var completedProjects = projects.Where(p => p.ProjectCompleted == true).ToList();
             var inProgressProjects = projects.Where(p => p.ProjectCompleted == false && p.ProjectTasksCompleted > 0).ToList();
@@ -144,7 +135,7 @@ namespace Orion.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                logger.LogError(ex.Message);
                 return ex.Message;
             }
         }

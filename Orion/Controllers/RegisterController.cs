@@ -19,20 +19,12 @@ using Orion.Data;
 namespace Orion.Controllers
 {
     //[Authorize(Policy = "IsAdmin")]
-    public class RegisterController : Controller
+    public class RegisterController(ILogger<RegisterController> logger, IConfiguration configuration,
+            IWebHostEnvironment environment, DataContext dataContext)
+        : Controller
     {
-        private readonly ILogger<RegisterController> _logger;
-        public IConfiguration Configuration { get; }
-        private IWebHostEnvironment Environment;
-        private DataContext _dataContext;
-
-        public RegisterController(ILogger<RegisterController> logger, IConfiguration configuration, IWebHostEnvironment environment, DataContext dataContext)
-        {
-            _logger = logger;
-            Configuration = configuration;
-            Environment = environment;
-            _dataContext = dataContext;
-        }
+        public IConfiguration Configuration { get; } = configuration;
+        private IWebHostEnvironment Environment = environment;
 
         [BindProperty] public RegisterModel RegisterInput { get; set; }
 
@@ -55,7 +47,7 @@ namespace Orion.Controllers
                 Password = RegisterInput.Password
             };
 
-            if (_dataContext.Users.Any(x => x.Email == userModel.Email))
+            if (dataContext.Users.Any(x => x.Email == userModel.Email))
             {
                 ViewBag.Message = "This email has already been registered in the system.";
                 return View("Register");
@@ -72,8 +64,8 @@ namespace Orion.Controllers
                     Organization = userModel.Organization
                 };
 
-                _dataContext.Users.Add(userToRegister);
-                _dataContext.SaveChanges();
+                dataContext.Users.Add(userToRegister);
+                dataContext.SaveChanges();
                 ViewBag.Success = "The account has been registered successfully";
 
 
@@ -82,7 +74,7 @@ namespace Orion.Controllers
 
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                logger.LogError(e.Message);
                 ViewBag.Message = e.Message;
                 throw;
             }

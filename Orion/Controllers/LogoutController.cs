@@ -12,16 +12,9 @@ using System.Security.Claims;
 namespace Orion.Controllers
 {
     [AllowAnonymous]
-    public class LogoutController : Controller
+    public class LogoutController(ILogger<LogoutController> logger, DataContext dataContext) : Controller
     {
-        private readonly ILogger<LogoutController> _logger;
-        private readonly DataContext _dataContext;
-
-        public LogoutController(ILogger<LogoutController> logger, DataContext dataContext)
-        {
-            _logger = logger;
-            _dataContext = dataContext;
-        }
+        private readonly ILogger<LogoutController> _logger = logger;
 
         public IActionResult Logout()
         {
@@ -35,9 +28,9 @@ namespace Orion.Controllers
 
             if (!string.IsNullOrEmpty(userEmail))
             {
-                var foundUser = _dataContext.Users.SingleOrDefault(x => x.Email == userEmail);
+                var foundUser = dataContext.Users.SingleOrDefault(x => x.Email == userEmail);
                 foundUser.IsLoggedIn = false;
-                _dataContext.SaveChanges();
+                dataContext.SaveChanges();
             }
 
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

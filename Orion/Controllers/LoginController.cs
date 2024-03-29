@@ -16,16 +16,9 @@ using Microsoft.AspNetCore.Http;
 namespace Orion.Controllers
 {
     [AllowAnonymous]
-    public class LoginController : Controller
+    public class LoginController(ILogger<LoginController> logger, DataContext dataContext) : Controller
     {
-        private readonly ILogger<LoginController> _logger;
-        private readonly DataContext _dataContext;
-
-        public LoginController(ILogger<LoginController> logger, DataContext dataContext)
-        {
-            _logger = logger;
-            _dataContext = dataContext;
-        }
+        private readonly ILogger<LoginController> _logger = logger;
 
         [BindProperty] public InputModel Input { get; set; }
 
@@ -53,7 +46,7 @@ namespace Orion.Controllers
         {
             //returnUrl ??= Url.Content("~/");
 
-            var user = _dataContext.Users.FirstOrDefault(f => f.Email == Input.Email && f.Password == Input.Password);
+            var user = dataContext.Users.FirstOrDefault(f => f.Email == Input.Email && f.Password == Input.Password);
 
             if (user == null)
             {
@@ -62,7 +55,7 @@ namespace Orion.Controllers
             }
 
             user.IsLoggedIn = true;
-            _dataContext.SaveChanges(); 
+            dataContext.SaveChanges(); 
 
             var claims = new List<Claim>
             {
