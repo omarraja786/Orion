@@ -1,19 +1,6 @@
-﻿using System;
-using Orion.Models;
+﻿using Orion.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.IO;
-using System.Data;
-using System.Data.OleDb;
-using System.Data.SqlClient;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Data.SqlClient;
-using static Orion.Controllers.LoginController;
-using System.ComponentModel.DataAnnotations;
 using Orion.Data;
 
 namespace Orion.Controllers

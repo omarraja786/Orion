@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Orion;
 
 public class Program

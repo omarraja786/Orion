@@ -1,6 +1,4 @@
-﻿using UserData = Orion.Data.UserData;
-
-namespace Orion.Data
+﻿namespace Orion.Data
 {
     public static class Mapper
     {

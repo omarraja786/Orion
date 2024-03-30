@@ -1,18 +1,8 @@
 ﻿using Orion.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using Orion.Data;
@@ -25,10 +15,10 @@ namespace Orion.Controllers
         public IActionResult Index()
         {
             ViewBag.UsersRegistered = dataContext.Users.Count();
-            ViewBag.UsersLoggedIn = dataContext.Users.Where(x => x.IsLoggedIn).Count();
-            ViewBag.ProjectsStarted = dataContext.ProjectData.Where(x => x.ProjectStatus).Count();
-            ViewBag.ProjectsPending = dataContext.ProjectData.Where(x => !x.ProjectStatus && !x.ProjectCompleted).Count();
-            ViewBag.ProjectsComplete = dataContext.ProjectData.Where(x => x.ProjectCompleted).Count();
+            ViewBag.UsersLoggedIn = dataContext.Users.Count(x => x.IsLoggedIn);
+            ViewBag.ProjectsStarted = dataContext.ProjectData.Count(x => x.ProjectStatus);
+            ViewBag.ProjectsPending = dataContext.ProjectData.Count(x => !x.ProjectStatus && !x.ProjectCompleted);
+            ViewBag.ProjectsComplete = dataContext.ProjectData.Count(x => x.ProjectCompleted);
             var projects = dataContext.ProjectData.ToList();
 
             var completedProjects = projects.Where(p => p.ProjectCompleted == true).ToList();
